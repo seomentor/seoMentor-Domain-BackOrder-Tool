@@ -1,9 +1,11 @@
 import requests
+import json
+from datetime import datetime, timedelta
 # Welcome Message
 print('Hello and Welcome to seoMentor Domain Purchase Automation Tool')
 
 # ask which domain he want to buy
-domainBuy = input('Please Enter Domain Name: ')
+domainBuy = str(input('Please Enter Domain Name: '))
 def domaincheck(domainBuy):
     while '.co.il' not in domainBuy:
         domainBuy = str(input('please enter a valid input: '))
@@ -22,31 +24,28 @@ questioncheck(qCheck)
 
 # Check the domain
 
+#api url
+apiurl = 'https://www.whoisxmlapi.com/whoisserver/WhoisService?'
+#api payload
+payload = {'apiKey': 'at_ibMNCbFfUGzZW41eRSXMKapbLUKEW', 'domainName': {domainBuy}, 'outputFormat': 'JSON'}
+whois = requests.post(apiurl, params = payload)
+data = json.loads(whois.content)
+current_date = data['WhoisRecord']['registryData']['expiresDate']
+date_obj = datetime.strptime(current_date, '%d-%m-%Y')
+print(date_obj)
+print('This Domain will be available to register in' + date_obj + timedelta(days=45))
+
+# ask the user if he want to buy this and set timer
+
+qCheck2 = input('Are you want to schedule a purchase for this domain?: Y/N')
+def questioncheck(qCheck2):
+    while 'y' not in qCheck2:
+        qCheck2 = str(input('Please choose the right answer: Y/N'))
+    else:
+        print('Ok i need some more details')
+questioncheck(qCheck2)
+
+#
+
 # Gathering LiveDNS DATA
 #now in test mode
-UserName = 'sapirzuberismg@gmail.com'
-Password = '32423432'
-DomainName = 'admin.co.il'
-RegistrationPeriod = '1'
-RegistrantName = 'sapir'
-RegistrantEmail = 'zuberi'
-RegistrantAddress = 'avraham yafe 11'
-RegistrantCity = 'holon'
-RegistrantZipCode = '324234'
-RegistrantCountry = 'IL'
-RegistrantPhoneCountryCode = '972'
-RegistrantPhoneCityCode = '03'
-RegistrantPhoneNumber = '559282887'
-AdminNicHandle = 'shay'
-TechnicalNicHandle = 'adjkhas'
-ZoneNicHandle = 'asdasd'
-NS1 = 'asdasd'
-NS2 = 'asdasd'
-NS3 = 'asdasd'
-
-url = f'https://domains.livedns.co.il/API/DomainsAPI.asmx/NewDomain?UserName={user}&Password=sapir0072k&DomainName={domain}&RegistrationPeriod=1&RegistrantName=sapir%20zuberi&RegistrantEmail=sapirzuberismg@gmail.com&RegistrantAddress=trompeldor%2018&RegistrantCity=hadera&RegistrantZipCode=3828022&RegistrantCountry=il&RegistrantPhoneCountryCode=972&RegistrantPhoneCityCode=055&RegistrantPhoneNumber=9807615&AdminNicHandle=LD-SZ4136-IL&TechnicalNicHandle=LD-SZ4136-IL&ZoneNicHandle=LD-SZ4136-IL&NS1=ns1.upress.io&NS2=ns2.upress.io&NS3=ns3.upress.io'
-
-def buydomain():
-    response = requests.post(url, data)
-    pdata = response.json()
-    print(response.status_code, response.reason, pdata)
