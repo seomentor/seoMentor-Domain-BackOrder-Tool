@@ -1,3 +1,4 @@
+import os.path
 import requests
 import json
 from datetime import datetime, timedelta
@@ -42,10 +43,14 @@ def questioncheck(qCheck2):
     while 'y' not in qCheck2:
         qCheck2 = str(input('Please choose the right answer: Y/N'))
     else:
-        print('Ok i need some more details')
+        print('Ok let me check something')
 questioncheck(qCheck2)
 
-#
+#check if its first time using and look for url.txt if exist
+def purchasedomain():
+    if os.path.isfile('./url.txt'):
+        urlfile = open(file, "r")
+        print('Ok im starting')
 
-# Gathering LiveDNS DATA
-#now in test mode
+    else:
+        print('Ohh, i see its your first time here, i need to gather some information about you.')
