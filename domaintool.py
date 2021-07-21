@@ -7,6 +7,8 @@ from requests import Request, Session
 # Welcome Message
 print('Hello and Welcome to seoMentor Domain Purchase Automation Tool\nLet me check few things....')
 
+# Collect WhoisXMLAPI Api key from the user
+
 def getwapi():
     if os.path.isfile('./Live DNS Project/whoisapikey.txt'):
         print('its look like its not your first time here. lets go!')
@@ -18,6 +20,8 @@ def getwapi():
         wapifile.write(wapi)
         wapifile.close()
 getwapi()
+
+# Collect Live DNS User Information from the user
 
 def getlivedns():
     if os.path.isfile('./Live DNS Project/livednsurl.txt'):
@@ -66,36 +70,29 @@ def getlivedns():
         ldfile.close()
 getlivedns()
 
-# ask which domain he want to buy
+# ask the user which domain he want to buy
+
 domainBuy = str(input('Please Enter Domain Name: '))
 def domaincheck(domainBuy):
     while '.co.il' not in domainBuy:
         domainBuy = str(input('please enter a valid input: '))
         if '.co.il' in domainBuy:
-            print('Success')
+            print('Lets Check when this domain will be available to purchase')
 domaincheck(domainBuy)
-# Validation Question Before Start Whois
-qCheck = input('ARE YOU READY TO FUCK THEM ALL?!?!: Y/N')
-def questioncheck(qCheck):
-    while 'y' not in qCheck:
-        qCheck = str(input('PLEASE SAY YES!!!: Y/N'))
-    else:
-        print('Start')
-questioncheck(qCheck)
 
-# Check the domain
+# Check the domain via whoisxmlapi.com and take the expired date
 
-#api url
-wapiurl = 'https://www.whoisxmlapi.com/whoisserver/WhoisService?'
-#api payload
-payload = {'apiKey': 'at_ibMNCbFfUGzZW41eRSXMKapbLUKEW', 'domainName': {domainBuy}, 'outputFormat': 'JSON'}
-whois = requests.post(wapiurl, params=payload)
-data = json.loads(whois.content)
-current_date = data['WhoisRecord']['registryData']['expiresDate']
-date_obj = datetime.strptime(current_date, '%d-%m-%Y')
-print(date_obj)
-print('This Domain will be available to register in' + str(date_obj) + str(timedelta(days=45)))
+def WhoIsApi():
+    wapiurl = 'https://www.whoisxmlapi.com/whoisserver/WhoisService?'
+    payload = {'apiKey': 'at_ibMNCbFfUGzZW41eRSXMKapbLUKEW', 'domainName': {domainBuy}, 'outputFormat': 'JSON'}
+    request = requests.post(wapiurl, params=payload)
+    response = json.loads(request.content)
+    expired_date = response['WhoisRecord']['registryData']['expiresDate']
+    date_obj = datetime.strptime(expired_date, '%d-%m-%Y')
+    print('This Domain will be available to register in' + str(date_obj) + str(timedelta(days=45)))
+
 # ask the user if he want to buy this and set timer
+
 qCheck2 = input('Are you want to schedule a purchase for this domain?: Y/N')
 def questioncheck(qCheck2):
     while 'y' not in qCheck2:
@@ -103,13 +100,7 @@ def questioncheck(qCheck2):
     else:
         print('Ok let me check something')
 questioncheck(qCheck2)
-#check if its first time using and look for url.txt if exist
-def clogin():
-    if os.path.isfile('./url.txt'):
-        urlfile = open("url.txt", "r")
-        lines = urlfile.read()
-        ldapi = lines
-        r = requests.get(ldapi)
-        print(r.headers)
-    else:
-        pass
+
+# Schedule and purchase the domain
+
+#def dlastpurchase():
