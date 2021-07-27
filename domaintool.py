@@ -1,96 +1,91 @@
-import os
-import os.path
 import requests
-import json
-from datetime import datetime, timedelta
+import time
+from datetime import datetime
+from datetime import timedelta
 
-# Welcome Message
-print('Hello and Welcome to seoMentor Domain Purchase Automation Tool\nLet me check few things....')
+# set a variable for setting.txt
+settingsFile = 'settings.txt'
+# open the file in read mode
+f = open(settingsFile, 'r')
+#ask which domain the user want to buy
+def askfordomain():
+    ask = input('Which Domain You want to Hunt? ')
+    DomainName = ask
+    return DomainName
+# define a function that handle the setting and make setlist dict with all details
+def getSettingsFromFile():
+    # save settings value into fileContent variable
+    fileContent = f.read()
+    # define a dictionary
+    setdict = {}
+    # define for loop that run on the settings, split them to Key and Value and save them into Dict
+    for line in fileContent.split('\n'):
+        keyValue = line.split('=')
+        key = keyValue[0].strip()
+        value = keyValue[1].strip()
+        setdict[key] = value
+    # return the function the last value setdict and in fact getSettingsFromFile() function will return us dict list with our values
+    return setdict
+# define function that prepare the last url for http post request
+def makelasturl():
+    lastdiclist = getSettingsFromFile()
+    UserName = lastdiclist['UserName']
+    Password = lastdiclist['Password']
+    RegistrantName = lastdiclist['RegistrantName']
+    RegistrantEmail = lastdiclist['RegistrantEmail']
+    RegistrantAddress = lastdiclist['RegistrantAddress']
+    RegistrantCity = lastdiclist['RegistrantCity']
+    RegistrantZipCode = lastdiclist['RegistrantZipCode']
+    RegistrantCountry = lastdiclist['RegistrantCountry']
+    RegistrantPhoneCountryCode = lastdiclist['RegistrantPhoneCountryCode']
+    RegistrantPhoneCityCode = lastdiclist['RegistrantPhoneCityCode']
+    RegistrantPhoneNumber = lastdiclist['RegistrantPhoneNumber']
+    AdminNicHandle = lastdiclist['AdminNicHandle']
+    TechnicalNicHandle = lastdiclist['TechnicalNicHandle']
+    ZoneNicHandle = lastdiclist['ZoneNicHandle']
+    NS1 = lastdiclist['NS1']
+    NS2 = lastdiclist['NS2']
+    NS3 = lastdiclist['NS3']
+    url = f'https://domains.livedns.co.il/API/DomainsAPI.asmx/NewDomain?'
+    lasturl = f'{url}UserName={UserName}&Password={Password}&DomainName={askfordomain()}RegistrantName={RegistrantName}&RegistrantEmail={RegistrantEmail}&RegistrantAddress={RegistrantAddress}&RegistrantCity={RegistrantCity}&RegistrantZipCode={RegistrantZipCode}&RegistrantCountry={RegistrantCountry}&RegistrantPhoneCountryCode={RegistrantPhoneCountryCode}&RegistrantPhoneCityCode={RegistrantPhoneCityCode}&RegisrantPhoneNumber={RegistrantPhoneNumber}&AdminNicHandle={AdminNicHandle}&TechnicalNicHandle={TechnicalNicHandle}&ZoneNicHandle={ZoneNicHandle}&NS1={NS1}&NS2={NS2}&NS3={NS3}'
+    return lasturl
+# Define a function that validate the setting file
+def valsetting():
 
-# Ask the user which domain he want to buy
-domainBuy = str(input('Please Enter Domain Name: '))
-def domaincheck(domainBuy):
-    while '.co.il' not in domainBuy:
-        domainBuy = str(input('please enter a valid input: '))
-        if '.co.il' in domainBuy:
-            print('Lets Check when this domain will be available to purchase')
-domaincheck(domainBuy)
-
-# Ask the user what the period he want
-periodd = input('Please enter the period time u want: ')
-
-# Collect WhoisXMLAPI Api key from the user
-
-def getwapi():
-    if os.path.isfile("whoisapikey.txt"):
-        print('its look like its not your first time here. lets go!')
-        pass
-    else:
-        print('Its look like you are first time here, lets start gather some information about you')
-        wapifile = open("whoisapikey.txt", "w+")
-        wapi = input(f'Enter your "WhoisXMLAPI.com" API Key: ')
-        wapifile.write(wapi)
-        wapifile.close()
-getwapi()
-
-# Collect Live DNS User Information from the user
-
-def getlivedns():
-        print('Now i need your Live DNS Details')
-        UserName = 'apidemo@livedns.co.il'
-        Password = 'demo'
-        DomainName = domainBuy
-        RegistrationPeriod = periodd
-        RegistrantName = f'sapir%20zuberi'
-        RegistrantEmail = 'zuberi@zuberi.co.il'
-        RegistrantAddress = f'avraham%20yafe%201'
-        RegistrantCity = 'holon'
-        RegistrantZipCode = '324234'
-        RegistrantCountry = 'il'
-        RegistrantPhoneCountryCode = '972'
-        RegistrantPhoneCityCode = '055'
-        RegistrantPhoneNumber = '9282887'
-        AdminNicHandle = 'LD-SZ4136'
-        TechnicalNicHandle = 'LD-SZ4136'
-        ZoneNicHandle = 'LD-SZ4136'
-        NS1 = 'ns1.upress.io'
-        NS2 = 'ns2.upress.io'
-        NS3 = 'ns3.upress.io'
-        ldfile = open("livednsurl.txt", "w+")
-        writeapi = f'https://domains.livedns.co.il/API/DomainsAPI.asmx/NewDomain?UserName={UserName}&Password={Password}&DomainName={DomainName}&RegistrationPeriod={RegistrationPeriod}&RegistrantName={RegistrantName}&RegistrantEmail={RegistrantEmail}&RegistrantAddress={RegistrantAddress}&RegistrantCity={RegistrantCity}&RegistrantZipCode={RegistrantZipCode}&RegistrantCountry={RegistrantCountry}&RegistrantPhoneCountryCode={RegistrantPhoneCountryCode}&RegistrantPhoneCityCode={RegistrantPhoneCityCode}&RegistrantPhoneNumber={RegistrantPhoneNumber}&AdminNicHandle={AdminNicHandle}&TechnicalNicHandle={TechnicalNicHandle}&ZoneNicHandle={ZoneNicHandle}&NS1={NS1}&NS2={NS2}&NS3={NS3}'
-        ldfile.write(str(writeapi))
-        ldfile.close()
-getlivedns()
-
-# Check the domain via whoisxmlapi.com and take the expired date
-
-def WhoIsApi():
-    print('Lets check the domain you want and see when its available')
-    wapiurl = 'https://www.whoisxmlapi.com/whoisserver/WhoisService?'
-    payload = {'apiKey': 'at_ibMNCbFfUGzZW41eRSXMKapbLUKEW', 'domainName': {domainBuy}, 'outputFormat': 'JSON'}
-    request = requests.post(wapiurl, params=payload)
-    response = json.loads(request.content)
-    expired_date = response['WhoisRecord']['registryData']['expiresDate']
-    date_obj = datetime.strptime(expired_date, '%d-%m-%Y')
-    print('This Domain will be available to register in' + str(date_obj) + str(timedelta(days=45)))
-WhoIsApi()
-
-# ask the user if he want to buy this and set timer
-
-qCheck2 = input('Are you want to schedule a purchase for this domain?: Y/N')
-def questioncheck(qCheck2):
-    while 'y' not in qCheck2:
-        qCheck2 = str(input('Please choose the right answer: Y/N'))
-    else:
-        print('Ok let me check something')
-questioncheck(qCheck2)
-
-# Schedule and purchase the domain
-
-def dlastpurchase():
-    if os.path.isfile("livednsurl.txt"):
-        apikeyfile = open("livednsurl.txt", "r")
-        url = apikeyfile.read()
-        r = requests.get(url)
-        print(r.headers)
-dlastpurchase()
+# define a function that make a url for request and send post request to get expiry date and convert the xml result to json
+def getexpiresdate():
+    lastdiclist = getSettingsFromFile()
+    WhoApi = lastdiclist['wxakey']
+    url = f'https://www.whoisxmlapi.com/whoisserver/WhoisService?'
+    apiurl = f'{url}apiKey={WhoApi}&domainName={askfordomain()}&outputFormat=JSON&ignoreRawTexts=1'
+    request = requests.get(apiurl)
+    results = request.json()
+    if 'expiresDate' in results['WhoisRecord']['registryData'].keys():
+        edate = results['WhoisRecord']['registryData']['expiresDate']
+        return edate
+    elif 'dataError' in results['WhoisRecord']['registryData'].keys():
+        print('domain is available for purchase')
+# Define function that calulcate the date and add more 90 days and 1 second for last date and return the total seconds until the date purchase
+def cpdate():
+    date = getexpiresdate()
+    today = datetime.today()
+    dt = datetime.strptime(date,'%d-%m-%Y')
+    ddelay = timedelta(days=90, seconds=1)
+    ldate = dt + ddelay
+    cdate = ldate - today
+    tsec = (cdate.total_seconds())
+    return tsec
+# define the last function that buy the domain
+def domainbuy():
+    lurl = makelasturl()
+    d = 'd purchase'
+    print(d)
+    return d
+# define main function that make everything complete
+def main():
+    print('Hello and Welcome')
+    #d = cpdate()
+    time.sleep(d)
+    print('i did it')
+if __name__ == "__main__":
+    main()
