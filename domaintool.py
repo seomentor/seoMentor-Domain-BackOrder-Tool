@@ -2,14 +2,13 @@ import requests
 import time
 from datetime import datetime
 from datetime import timedelta
-
 # set a variable for setting.txt
 settingsFile = 'settings.txt'
 # open the file in read mode
 f = open(settingsFile, 'r')
 #ask which domain the user want to buy
 def askfordomain():
-    ask = input('Which Domain You want to Hunt? ')
+    ask = input('Which Domain You want to Hunt?: ')
     DomainName = ask
     return DomainName
 # define a function that handle the setting and make setlist dict with all details
@@ -49,9 +48,6 @@ def makelasturl():
     url = f'https://domains.livedns.co.il/API/DomainsAPI.asmx/NewDomain?'
     lasturl = f'{url}UserName={UserName}&Password={Password}&DomainName={askfordomain()}RegistrantName={RegistrantName}&RegistrantEmail={RegistrantEmail}&RegistrantAddress={RegistrantAddress}&RegistrantCity={RegistrantCity}&RegistrantZipCode={RegistrantZipCode}&RegistrantCountry={RegistrantCountry}&RegistrantPhoneCountryCode={RegistrantPhoneCountryCode}&RegistrantPhoneCityCode={RegistrantPhoneCityCode}&RegisrantPhoneNumber={RegistrantPhoneNumber}&AdminNicHandle={AdminNicHandle}&TechnicalNicHandle={TechnicalNicHandle}&ZoneNicHandle={ZoneNicHandle}&NS1={NS1}&NS2={NS2}&NS3={NS3}'
     return lasturl
-# Define a function that validate the setting file
-def valsetting():
-
 # define a function that make a url for request and send post request to get expiry date and convert the xml result to json
 def getexpiresdate():
     lastdiclist = getSettingsFromFile()
@@ -64,7 +60,7 @@ def getexpiresdate():
         edate = results['WhoisRecord']['registryData']['expiresDate']
         return edate
     elif 'dataError' in results['WhoisRecord']['registryData'].keys():
-        print('domain is available for purchase')
+        print('domain is available for purchase now! restart the program')
 # Define function that calulcate the date and add more 90 days and 1 second for last date and return the total seconds until the date purchase
 def cpdate():
     date = getexpiresdate()
@@ -78,14 +74,48 @@ def cpdate():
 # define the last function that buy the domain
 def domainbuy():
     lurl = makelasturl()
-    d = 'd purchase'
-    print(d)
-    return d
+    request = requests.get(lurl)
+    result = request.text
+    return result
 # define main function that make everything complete
 def main():
-    print('Hello and Welcome')
-    #d = cpdate()
-    time.sleep(d)
-    print('i did it')
+    if True:
+        print("""
+                                      $$\      $$\                       $$\                         
+                                      $$$\    $$$ |                      $$ |                        
+         $$$$$$$\  $$$$$$\   $$$$$$\  $$$$\  $$$$ | $$$$$$\  $$$$$$$\  $$$$$$\    $$$$$$\   $$$$$$\  
+        $$  _____|$$  __$$\ $$  __$$\ $$\$$\$$ $$ |$$  __$$\ $$  __$$\ \_$$  _|  $$  __$$\ $$  __$$\ 
+        \$$$$$$\  $$$$$$$$ |$$ /  $$ |$$ \$$$  $$ |$$$$$$$$ |$$ |  $$ |  $$ |    $$ /  $$ |$$ |  \__|
+         \____$$\ $$   ____|$$ |  $$ |$$ |\$  /$$ |$$   ____|$$ |  $$ |  $$ |$$\ $$ |  $$ |$$ |      
+        $$$$$$$  |\$$$$$$$\ \$$$$$$  |$$ | \_/ $$ |\$$$$$$$\ $$ |  $$ |  \$$$$  |\$$$$$$  |$$ |      
+        \_______/  \_______| \______/ \__|     \__| \_______|\__|  \__|   \____/  \______/ \__|      
+        
+                ______                      _         _   _             _            
+                |  _  \                    (_)       | | | |           | |           
+                | | | |___  _ __ ___   __ _ _ _ __   | |_| |_   _ _ __ | |_ ___ _ __ 
+                | | | / _ \| '_ ` _ \ / _` | | '_ \  |  _  | | | | '_ \| __/ _ \ '__|
+                | |/ / (_) | | | | | | (_| | | | | | | | | | |_| | | | | ||  __/ |   
+                |___/ \___/|_| |_| |_|\__,_|_|_| |_| \_| |_/\__,_|_| |_|\__\___|_|   
+                                                                             
+         """)
+    print('Hello and Welcome to seoMentor Domain Back Order System')
+    getSettingsFromFile()
+    makelasturl()
+    askfordomain()
+    getexpiresdate()
+    print('This Domain will be Available at: ' + getexpiresdate())
+    vask = input(f'Are you want to Schedule Purchase? write "yes" or "not"')
+    if 'yes' in vask:
+        d = cpdate()
+        time.sleep(d)
+        domainbuy()
+        if 'Success' in domainbuy():
+            print('Purchase Success')
+        elif 'Specified domain is unavailable for registration' in domainbuy():
+            print('Purchase failed, sending more request in 3 seconds')
+            time.sleep(3)
+            domainbuy()
+    else:
+        exit()
 if __name__ == "__main__":
     main()
