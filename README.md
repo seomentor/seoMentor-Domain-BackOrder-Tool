@@ -64,7 +64,6 @@ Feel free to contact me! i would love to help you run this script on your comput
 twitter.com/Shay_SEO<br>
 facebook.com/shay.amos.7758<br>
 linkedin.com/in/shayamoseo
-
-
+seomentor.co.il/contact
 
 
