@@ -38,9 +38,10 @@ but if you are a developer feel free that take the code and change the api to yo
 4. after you create a Contact in the Contacts Control Management you will see Nic-Handle its will be something like "LD-SA12121-IL"
 This nick handle will be the values of "AdminNicHandle", "TechnicalNicHandle", "ZoneNicHandle" in settings file.
 5. Open Account in WhoisXMLAPI.com and generate whois api secret key, you will get free 500 whois requests per month.
-6. Install Python 3.9.x on you machine and add it to PATH.
-7. Download the script folder from here and save it on you desktop.
-8. Open the setting file and and fill the empty values after "=".
+6. Check the date and time on your machine, its should be the currect live time and date cause the script is calculate the time from the machine.
+7. Install Python 3.9.x on you machine and add it to PATH.
+8. Download the script folder from here and save it on you desktop.
+9. Open the setting file and and fill the empty values after "=".
 for example: "RegistrantName = firstname%20lastname" if you write space do it with "%20".
 the last line is "wxakey" is the key of they whoisapixml api key.
 all the the values must to be filled. empty value make error.
