@@ -15,8 +15,20 @@ the tool working with 2 APIs
 
 1. WhoisXMLAPI.com for gathering domain registry information.
 2. Livedns.co.il API for purchase a domain
+3. Schedule a Purchase on the expiry date and adds more 90 days (The time of grace of the Israeli domain registrar)
 
-For now this tool available only with LiveDNS API so its mean its fit now only to israeli people but for almost all kinds of tld.
-in the near feature i will add some option to choose an api to purchase and will put some api that everyone can use.
 
-You should open Account in Livedns.co.il and buy a credits for domains purchase`s and fill the details in 'setting.txt.' file.
+For now this tool available only with LiveDNS API so its mean its suitable now only to israeli users cause live dns has only hebrew lanaguge but its working almost all kinds of tld.
+
+in the near feature i will develop the global version that will work with GoDaddy API.
+
+# Getting Started
+
+1. Install Python 3.9.x on you machine.
+2. download the script folder from here.
+3. 
+
+
+# Define 'setting.txt' details
+
+settings.txt file 
