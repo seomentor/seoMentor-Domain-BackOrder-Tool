@@ -60,7 +60,10 @@ The Tool working flow goes like this:
 7. Purchase Succes, Done
 
 # Have Question`s?
-feel free to contact me at twitter @Shay_SEO or Shay Amos @ facebook
+Feel free to contact me! i would love to help you run this script on your computer!
+twitter.com/Shay_SEO
+facebook.com/shay.amos.7758
+linkedin.com/in/shayamoseo
 
 
 
