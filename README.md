@@ -61,8 +61,8 @@ The Tool working flow goes like this:
 
 # Have Question`s?
 Feel free to contact me! i would love to help you run this script on your computer!
-twitter.com/Shay_SEO
-facebook.com/shay.amos.7758
+twitter.com/Shay_SEO<br>
+facebook.com/shay.amos.7758<br>
 linkedin.com/in/shayamoseo
 
 
