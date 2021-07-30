@@ -5,7 +5,6 @@ import random
 from datetime import datetime
 from datetime import timedelta
 from time import sleep
-# ask which domain the user want to buy
 def askfordomain():
     while True:
         ask = input("Enter domain: ")
@@ -25,22 +24,17 @@ def askperiod():
         else:
             print('Registrant Period Valid')
             return ask
-# define a function that handle the setting and make setlist dict with all details
 def getSettingsFromFile():
     settingsFile = 'settings.txt'
     f = open(settingsFile, 'r')
     fileContent = f.read()
-    # define a dictionary
     setdict = {}
-    # define for loop that run on the settings, split them to Key and Value and save them into Dict
     for line in fileContent.split('\n'):
         keyValue = line.split('=')
         key = keyValue[0].strip()
         value = keyValue[1].strip()
         setdict[key] = value
-    # return the function the last value setdict and in fact getSettingsFromFile() function will return us dict list with our values
     return setdict
-# define function that prepare the last url for http post request
 def makelasturl(validDomain, getset, validPeriod):
     lastdiclist = getset
     UserName = lastdiclist['UserName']
@@ -63,7 +57,6 @@ def makelasturl(validDomain, getset, validPeriod):
     url = f'https://domains.livedns.co.il/API/DomainsAPI.asmx/NewDomain?'
     lasturl = f'{url}UserName={UserName}&Password={Password}&DomainName={validDomain}&RegistrationPeriod={validPeriod}&RegistrantName={RegistrantName}&RegistrantEmail={RegistrantEmail}&RegistrantAddress={RegistrantAddress}&RegistrantCity={RegistrantCity}&RegistrantZipCode={RegistrantZipCode}&RegistrantCountry={RegistrantCountry}&RegistrantPhoneCountryCode={RegistrantPhoneCountryCode}&RegistrantPhoneCityCode={RegistrantPhoneCityCode}&RegisrantPhoneNumber={RegistrantPhoneNumber}&AdminNicHandle={AdminNicHandle}&TechnicalNicHandle={TechnicalNicHandle}&ZoneNicHandle={ZoneNicHandle}&NS1={NS1}&NS2={NS2}&NS3={NS3}'
     return lasturl
-# define a function that make a url for request and send post request to get expiry date and convert the xml result to json
 def getexpiresdate(validDomain, getset):
     lastdiclist = getset
     WhoApi = lastdiclist['wxakey']
@@ -77,7 +70,6 @@ def getexpiresdate(validDomain, getset):
     elif 'dataError' in results['WhoisRecord']['registryData'].keys():
         print('domain is available for purchase now! restart the program')
         main()
-# Define function that calulcate the date and add more 90 days and 1 second for last date and return the total seconds until the date purchase
 def cpdate(validDate):
     date = validDate
     today = datetime.today()
@@ -88,7 +80,6 @@ def cpdate(validDate):
     cdate = ldate - today
     tsec = (cdate.total_seconds())
     return tsec
-# define the last function that buy the domain
 def domainbuy(lurl):
     while True:
         r = random.randint(2, 6)
@@ -101,7 +92,6 @@ def domainbuy(lurl):
         else:
             print('Purchase Failed, try again in: ' + str(r) + ' Seconds')
             sleep(r)
-# define main function that make everything complete
 def main():
     print("""
                                       $$\      $$\                       $$\                         
