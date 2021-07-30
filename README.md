@@ -17,6 +17,11 @@ The tool working with 2 APIs
 2. Livedns.co.il API for purchase a domain
 3. Schedule a Purchase on the expiry date and adds more 90 days (The time of grace of the Israeli domain registrar)
 
+The final time at which the purchase is scheduled is calculated according to the Registrar of Israeli Domains and only applies to domains with the suffix .il.
+I adjusted it so that it would work this way:
+Gets the expiration date and adds 90 days to it.
+for example: 
+if the expiration date is 01/01/2021 the purchase will be scheduled in 01/04/2021 00:00:01
 
 For now this tool available only with LiveDNS API so its mean its suitable now only to israeli users because livedns website has only hebrew lanaguge, but its working almost all kinds of tld.
 
@@ -53,12 +58,8 @@ The Tool working flow goes like this:
 6. Schedule
 7. Purchase Succes, Done
 
-# Scheduling 
-The final time at which the purchase is scheduled is calculated according to the Registrar of Israeli Domains and only applies to domains with the suffix .il.
-I adjusted it so that it would work this way:
-Gets the expiration date and adds 90 days to it.
-for example: 
-if the expiration date is 01/01/2021 the purchase will be scheduled in 01/04/2021 00:00:01
+# Have Question`s?
+feel free to contact me at twitter @Shay_SEO or Shay Amos @ facebook
 
 
 
