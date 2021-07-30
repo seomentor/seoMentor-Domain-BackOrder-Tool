@@ -63,7 +63,7 @@ The Tool working flow goes like this:
 Feel free to contact me! i would love to help you run this script on your computer!<br>
 twitter.com/Shay_SEO<br>
 facebook.com/shay.amos.7758<br>
-linkedin.com/in/shayamoseo
+linkedin.com/in/shayamoseo<br>
 seomentor.co.il/contact
 
 
