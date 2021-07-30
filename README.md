@@ -53,8 +53,13 @@ The Tool working flow goes like this:
 6. Schedule
 7. Purchase Succes, Done
 
-Important things that you have to know:
+# Scheduling 
 The final time at which the purchase is scheduled is calculated according to the Registrar of Israeli Domains and only applies to domains with the suffix .il.
+I adjusted it so that it would work this way:
+Gets the expiration date and adds 90 days to it.
+for example: 
+if the expiration date is 01/01/2021 the purchase will be scheduled in 01/04/2021 00:00:01
+
 
 
 
