@@ -59,6 +59,29 @@ The Tool working flow goes like this:
 6. Schedule
 7. Purchase Succes, Done
 
+# setting.txt
+setting.txt is a required document for running the tool, it contains all the details.
+A valid setting.txt file should look like this:
+
+UserName = example@example.com
+Password = password
+RegistrantName = firstname%20lastname
+RegistrantEmail = example@example.com
+RegistrantAddress = shderot%20aazmaot%2014
+RegistrantCity = tel%20aviv
+RegistrantZipCode = 324234
+RegistrantCountry = il
+RegistrantPhoneCountryCode = 972
+RegistrantPhoneCityCode = 055
+RegistrantPhoneNumber = 5555555
+AdminNicHandle = LD-SZ4138
+TechnicalNicHandle = LD-SZ4138
+ZoneNicHandle = LD-SZ4138
+NS1 = somens.ns
+NS2 = somens2.ns
+NS3 = somens3.ns
+wxakey = whoisxmlapi apikey
+
 # Have Question`s?
 Feel free to contact me! i would love to help you run this script on your computer!<br>
 twitter.com/Shay_SEO<br>
